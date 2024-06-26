@@ -1,0 +1,19 @@
+import requests
+from bs4 import BeautifulSoup
+ 
+ #site korumaya almaması için bilgisayarımızın bigileri gibi
+ #chrome ye "my user agent" yazıldımı en üstteki veri
+headers_param = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
+
+#çek edeceğimiz sitenin url si ve bilgisayarımızın bilgisi
+glassdor = requests.get("https://github.com/Talhadurmazu?tab=followers",headers=headers_param)
+
+jobs = glassdor.content
+soup = BeautifulSoup(jobs,"html.parser")
+
+#200 yazarsa veri çekebiliriz 403 ise çekemeyiz koruma vardır
+print(glassdor.status_code)
+
+# span isminin içindeki class isminin text'tini yazacak (benim github hesabımın takipçi sayısını)
+print(soup.find("span",{"class":"text-bold color-fg-default"}).get_text(strip=True))
+
